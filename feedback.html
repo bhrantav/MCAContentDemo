@@ -1,0 +1,220 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Training Session Feedback — Dr. Bhrantav Vora</title>
+    <style>
+        :root{font-family:system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial;line-height:1.4;color:#111}
+        body{margin:0;padding:2rem;background:#f5f7fb}
+        .container{max-width:800px;margin:0 auto;background:#fff;padding:1.5rem;border-radius:8px;box-shadow:0 6px 18px rgba(20,30,50,.08)}
+        h1{margin:.2rem 0 .6rem;font-size:1.3rem}
+        p.lead{margin:.2rem 0 1rem;color:#555;font-size:.95rem}
+        form{display:grid;gap:.8rem}
+        label{display:block;font-weight:600;font-size:.9rem;margin-bottom:.25rem}
+        .row{display:flex;gap:.8rem}
+        input[type="text"],input[type="email"],select,textarea,input[type="date"]{
+            width:100%;padding:.5rem;border:1px solid #d0d7e0;border-radius:6px;font-size:.95rem;background:#fff
+        }
+        textarea{min-height:110px;resize:vertical}
+        .inline{display:flex;gap:.6rem;align-items:center}
+        .radios{display:flex;gap:.5rem;align-items:center}
+        .small{font-size:.85rem;color:#4b5563}
+        .actions{display:flex;gap:.6rem;justify-content:flex-end;margin-top:.6rem}
+        button{padding:.55rem .9rem;border-radius:6px;border:0;background:#0b5fff;color:#fff;font-weight:600;cursor:pointer}
+        button.secondary{background:#e6eefc;color:#044}
+        .note{font-size:.85rem;color:#4b5563;margin-top:.4rem}
+        .result{padding:.8rem;border-radius:6px;background:#f0fdfa;border:1px solid #d1fae5;color:#064e3b}
+        footer{margin-top:1rem;font-size:.82rem;color:#6b7280}
+        @media(max-width:560px){.row{flex-direction:column}}
+    </style>
+</head>
+<body>
+    <main class="container" role="main">
+        <h1>Training Session Feedback</h1>
+        <p class="lead">Feedback form for the content training session conducted by Dr. Bhrantav Vora, Assistant Professor — MCA, LDRP Institute of Technology and Research. Your responses help improve future sessions. (Responses are kept confidential.)</p>
+
+        <form id="feedbackForm">
+            <div class="row">
+                <div style="flex:1">
+                    <label for="date">Session Date</label>
+                    <input type="date" id="date" name="sessionDate" required>
+                </div>
+                <div style="flex:1">
+                    <label for="topic">Session Topic</label>
+                    <input type="text" id="topic" name="topic" placeholder="e.g., Curriculum update, Assessment methods" required>
+                </div>
+            </div>
+
+            <div class="row">
+                <div style="flex:1">
+                    <label for="name">Your Name</label>
+                    <input type="text" id="name" name="name" placeholder="Optional if anonymous">
+                </div>
+                <div style="flex:1">
+                    <label for="email">Email (optional)</label>
+                    <input type="email" id="email" name="email" placeholder="you@institution.edu">
+                </div>
+            </div>
+
+            <div class="row">
+                <div style="flex:1">
+                    <label for="designation">Designation</label>
+                    <input type="text" id="designation" name="designation" placeholder="e.g., Assistant Professor" required>
+                </div>
+                <div style="flex:1">
+                    <label for="department">Department</label>
+                    <input type="text" id="department" name="department" value="MCA" required>
+                </div>
+            </div>
+
+            <fieldset style="border:0;padding:0">
+                <legend class="small" style="font-weight:700;margin-bottom:.4rem">Overall rating</legend>
+                <div class="radios" role="radiogroup" aria-label="Overall rating">
+                    <label><input type="radio" name="rating" value="5" required> 5 Excellent</label>
+                    <label><input type="radio" name="rating" value="4"> 4 Very good</label>
+                    <label><input type="radio" name="rating" value="3"> 3 Good</label>
+                    <label><input type="radio" name="rating" value="2"> 2 Fair</label>
+                    <label><input type="radio" name="rating" value="1"> 1 Poor</label>
+                </div>
+            </fieldset>
+
+            <div style="display:grid;grid-template-columns:1fr;gap:.6rem">
+                <label class="small">Please rate the following (1 = Poor, 5 = Excellent)</label>
+
+                <div class="row">
+                    <div style="flex:1">
+                        <label class="small">Content clarity</label>
+                        <select name="clarity" required>
+                            <option value="">Select</option>
+                            <option>5</option><option>4</option><option>3</option><option>2</option><option>1</option>
+                        </select>
+                    </div>
+                    <div style="flex:1">
+                        <label class="small">Delivery / Presentation</label>
+                        <select name="delivery" required>
+                            <option value="">Select</option>
+                            <option>5</option><option>4</option><option>3</option><option>2</option><option>1</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div style="flex:1">
+                        <label class="small">Pace of session</label>
+                        <select name="pace" required>
+                            <option value="">Select</option>
+                            <option>5</option><option>4</option><option>3</option><option>2</option><option>1</option>
+                        </select>
+                    </div>
+                    <div style="flex:1">
+                        <label class="small">Usefulness of materials</label>
+                        <select name="materials" required>
+                            <option value="">Select</option>
+                            <option>5</option><option>4</option><option>3</option><option>2</option><option>1</option>
+                        </select>
+                    </div>
+                </div>
+
+                <label for="comments">Comments / Suggestions</label>
+                <textarea id="comments" name="comments" placeholder="What worked well? What could be improved?"></textarea>
+
+                <div class="inline">
+                    <input type="checkbox" id="anonymous" name="anonymous">
+                    <label for="anonymous" class="small">Submit anonymously</label>
+                </div>
+            </div>
+
+            <div class="actions">
+                <button type="button" class="secondary" id="resetBtn">Reset</button>
+                <button type="submit">Submit feedback</button>
+            </div>
+
+            <p class="note">This form collects feedback for internal improvement. By submitting, you consent to the use of your responses for evaluation and planning.</p>
+        </form>
+
+        <div id="message" style="margin-top:.8rem;display:none" role="status"></div>
+
+        <footer>
+            Recorded by: Dr. Bhrantav Vora — Assistant Professor, MCA — LDRP Institute of Technology and Research
+        </footer>
+    </main>
+
+    <script>
+        (function(){
+            const form = document.getElementById('feedbackForm');
+            const dateInput = document.getElementById('date');
+            const resetBtn = document.getElementById('resetBtn');
+            const message = document.getElementById('message');
+
+            // set default session date to today
+            const today = new Date().toISOString().slice(0,10);
+            dateInput.value = today;
+
+            resetBtn.addEventListener('click', () => {
+                form.reset();
+                dateInput.value = today;
+                message.style.display = 'none';
+            });
+
+            function downloadJSON(data, filename){
+                const blob = new Blob([JSON.stringify(data, null, 2)], {type: 'application/json'});
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = filename;
+                document.body.appendChild(a);
+                a.click();
+                a.remove();
+                URL.revokeObjectURL(url);
+            }
+
+            form.addEventListener('submit', function(e){
+                e.preventDefault();
+                const fd = new FormData(form);
+                const obj = {};
+                for (const [k,v] of fd.entries()){
+                    obj[k] = v;
+                }
+                // collect radio group rating
+                const rating = form.querySelector('input[name="rating"]:checked');
+                obj.rating = rating ? rating.value : null;
+
+                // handle anonymous
+                if (form.anonymous.checked){
+                    obj.name = '';
+                    obj.email = '';
+                    obj.anonymous = true;
+                } else {
+                    obj.anonymous = false;
+                }
+
+                // add metadata
+                obj.collectedAt = new Date().toISOString();
+                obj.collectedBy = "Dr. Bhrantav Vora, Assistant Professor, MCA, LDRP Institute of Technology and Research";
+
+                // save to localStorage (append)
+                try {
+                    const key = 'training_feedback_records';
+                    const existing = JSON.parse(localStorage.getItem(key) || '[]');
+                    existing.push(obj);
+                    localStorage.setItem(key, JSON.stringify(existing));
+                } catch (err){
+                    // ignore storage errors
+                }
+
+                // show message and download JSON file
+                message.style.display = 'block';
+                message.className = 'result';
+                message.textContent = 'Thank you. Your feedback has been recorded. A JSON file will be downloaded for your records.';
+                const ts = new Date().toISOString().replace(/[:.]/g,'-');
+                const filename = `feedback_${obj.topic || 'session'}_${ts}.json`;
+                downloadJSON(obj, filename);
+
+                form.reset();
+                dateInput.value = today;
+            });
+        })();
+    </script>
+</body>
+</html>

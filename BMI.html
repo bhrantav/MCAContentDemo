@@ -1,0 +1,261 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>BMI Calculator</title>
+    <style>
+        :root{
+            --bg:#f6f8fb; --card:#fff; --accent:#2b6ef6; --muted:#6b7280;
+        }
+        body{
+            font-family:system-ui,Segoe UI,Roboto,"Helvetica Neue",Arial;
+            background:linear-gradient(180deg,#eef2ff 0%,var(--bg) 100%);
+            margin:0;min-height:100vh;display:flex;align-items:center;justify-content:center;
+            padding:24px;
+        }
+        .card{
+            background:var(--card);border-radius:12px;box-shadow:0 8px 30px rgba(20,24,40,.08);
+            width:100%;max-width:520px;padding:20px 22px;
+        }
+        h1{margin:0 0 8px;font-size:20px}
+        h2{margin:18px 0 8px;font-size:18px;color:red}
+        p.lead{margin:0 0 18px;color:var(--muted);font-size:13px}
+        .row{display:flex;gap:10px;margin-bottom:12px}
+        label{font-size:13px;color:var(--muted);display:block;margin-bottom:6px}
+        input[type="number"],select{
+            width:100%;padding:10px;border-radius:8px;border:1px solid #e6e9ef;font-size:14px;
+            box-sizing:border-box;background:#fff;
+        }
+        .controls{display:flex;gap:8px;margin-top:8px}
+        button{
+            cursor:pointer;border:0;padding:10px 12px;border-radius:8px;font-weight:600;
+            background:var(--accent);color:#fff;
+        }
+        button.secondary{background:#eef2ff;color:var(--accent);font-weight:600}
+        .result{
+            margin-top:16px;padding:12px;border-radius:10px;background:#0f1724;color:#fff;
+            display:flex;align-items:center;gap:12px;
+        }
+        .bmi-value{font-size:28px;font-weight:700}
+        .bmi-meta{font-size:14px;color:rgba(255,255,255,.9)}
+        .muted{color:var(--muted);font-size:13px;margin-top:6px}
+        .small{font-size:12px;color:var(--muted)}
+    </style>
+</head>
+<body>
+    <main class="card" role="main">
+        <h1>BMI Calculator</h1>
+        <p class="lead">Enter your weight and height to calculate Body Mass Index (BMI).</p>
+
+        <div class="row">
+            <div style="flex:1">
+                <label for="unit">Units</label>
+                <select id="unit" aria-label="Units">
+                    <option value="metric">Metric (kg, cm)</option>
+                    <option value="imperial">Imperial (lb, in)</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="row">
+            <div style="flex:1">
+                <label id="weight-label" for="weight">Weight (kg)</label>
+                <input id="weight" type="number" inputmode="decimal" min="0" step="0.1" placeholder="e.g. 70" />
+            </div>
+            <div style="flex:1">
+                <label id="height-label" for="height">Height (cm)</label>
+                <input id="height" type="number" inputmode="decimal" min="0" step="0.1" placeholder="e.g. 175" />
+            </div>
+        </div>
+
+        <div class="controls">
+            <button id="calc">Calculate</button>
+            <button id="reset" class="secondary" type="button">Reset</button>
+            <div style="flex:1"></div>
+        </div>
+
+        <div id="output" aria-live="polite" style="display:none">
+            <div class="result" id="result-panel">
+                <div>
+                    <div class="bmi-value" id="bmi-value">--</div>
+                    <div class="bmi-meta" id="bmi-category">---</div>
+                </div>
+            </div>
+            <div class="muted" id="bmi-message"></div>
+        </div>
+
+        <p class="small">Categories: Underweight &lt;18.5 — Normal 18.5–24.9 — Overweight 25–29.9 — Obesity ≥30</p>
+
+        <hr style="border-color:#e6e9ef;margin:18px 0;border-width:1px 0 0;">
+
+        <h2>EMI Calculator</h2>
+        <p class="lead">Calculate monthly EMI, total interest and total payment for a loan.</p>
+
+        <div class="row">
+            <div style="flex:1">
+                <label for="emi-principal">Principal (Loan Amount)</label>
+                <input id="emi-principal" type="number" inputmode="decimal" min="0" step="0.01" placeholder="e.g. 500000" />
+            </div>
+        </div>
+        <div class="row">
+            <div style="flex:1">
+                <label for="emi-rate">Annual Interest Rate (%)</label>
+                <input id="emi-rate" type="number" inputmode="decimal" min="0" step="0.01" placeholder="e.g. 7.5" />
+            </div>
+            <div style="flex:1">
+                <label for="emi-years">Tenure (Years)</label>
+                <input id="emi-years" type="number" inputmode="decimal" min="0" step="0.1" placeholder="e.g. 20" />
+            </div>
+        </div>
+        <div class="controls">
+            <button id="emi-calc">Calculate EMI</button>
+            <button id="emi-reset" class="secondary" type="button">Reset</button>
+            <div style="flex:1"></div>
+        </div>
+        <div id="emi-output" aria-live="polite" style="display:none;margin-top:10px">
+            <div class="result" id="emi-result">
+                <div>
+                    <div class="bmi-value" id="emi-monthly">--</div>
+                    <div class="bmi-meta" id="emi-description">Monthly EMI</div>
+                </div>
+                <div style="margin-left:auto;text-align:right">
+                    <div class="small">Total Interest: <strong id="emi-total-interest">--</strong></div>
+                    <div class="small">Total Payment: <strong id="emi-total-payment">--</strong></div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // Simple, accessible BMI calculator supporting metric and imperial units.
+        const unit = document.getElementById('unit');
+        const weightInput = document.getElementById('weight');
+        const heightInput = document.getElementById('height');
+        const weightLabel = document.getElementById('weight-label');
+        const heightLabel = document.getElementById('height-label');
+        const calcBtn = document.getElementById('calc');
+        const resetBtn = document.getElementById('reset');
+        const output = document.getElementById('output');
+        const bmiValueEl = document.getElementById('bmi-value');
+        const bmiCategoryEl = document.getElementById('bmi-category');
+        const bmiMessageEl = document.getElementById('bmi-message');
+        const resultPanel = document.getElementById('result-panel');
+
+        function setLabels() {
+            if (unit.value === 'metric') {
+                weightLabel.textContent = 'Weight (kg)';
+                heightLabel.textContent = 'Height (cm)';
+                weightInput.placeholder = 'e.g. 70';
+                heightInput.placeholder = 'e.g. 175';
+            } else {
+                weightLabel.textContent = 'Weight (lb)';
+                heightLabel.textContent = 'Height (in)';
+                weightInput.placeholder = 'e.g. 154';
+                heightInput.placeholder = 'e.g. 69';
+            }
+        }
+
+        function classify(bmi) {
+            if (bmi < 18.5) return {cat:'Underweight', color:'#3b82f6', msg:'Consider gaining weight for improved health.'};
+            if (bmi < 25) return {cat:'Normal', color:'#10b981', msg:'Healthy range — maintain current habits.'};
+            if (bmi < 30) return {cat:'Overweight', color:'#f59e0b', msg:'Consider lifestyle changes to lose weight.'};
+            return {cat:'Obesity', color:'#ef4444', msg:'Consult healthcare provider for guidance.'};
+        }
+
+        function computeBMI() {
+            const w = parseFloat(weightInput.value);
+            const h = parseFloat(heightInput.value);
+            if (!w || !h || w <= 0 || h <= 0) {
+                alert('Please enter valid positive numbers for weight and height.');
+                return;
+            }
+            let bmi;
+            if (unit.value === 'metric') {
+                // weight in kg, height in cm -> convert to m
+                const hm = h / 100;
+                bmi = w / (hm * hm);
+            } else {
+                // imperial: lb and inches. BMI = (703 * lb) / in^2
+                bmi = (703 * w) / (h * h);
+            }
+            const rounded = Math.round(bmi * 10) / 10;
+            const info = classify(rounded);
+            bmiValueEl.textContent = rounded;
+            bmiCategoryEl.textContent = info.cat;
+            resultPanel.style.background = info.color;
+            bmiMessageEl.textContent = info.msg;
+            output.style.display = 'block';
+            // move focus to result for screen readers
+            bmiValueEl.focus?.();
+        }
+
+        unit.addEventListener('change', setLabels);
+        calcBtn.addEventListener('click', computeBMI);
+        resetBtn.addEventListener('click', () => {
+            weightInput.value = '';
+            heightInput.value = '';
+            output.style.display = 'none';
+            setLabels();
+            weightInput.focus();
+        });
+
+        // init
+        setLabels();
+
+        // ----- EMI Calculator -----
+        const emiPrincipal = document.getElementById('emi-principal');
+        const emiRate = document.getElementById('emi-rate');
+        const emiYears = document.getElementById('emi-years');
+        const emiCalcBtn = document.getElementById('emi-calc');
+        const emiResetBtn = document.getElementById('emi-reset');
+        const emiOutput = document.getElementById('emi-output');
+        const emiMonthly = document.getElementById('emi-monthly');
+        const emiTotalInterest = document.getElementById('emi-total-interest');
+        const emiTotalPayment = document.getElementById('emi-total-payment');
+        const emiResultPanel = document.getElementById('emi-result');
+
+        const numberFormat = new Intl.NumberFormat(undefined, {minimumFractionDigits:2, maximumFractionDigits:2});
+
+        function computeEMI(e){
+            e?.preventDefault?.();
+            const P = parseFloat(emiPrincipal.value);
+            const annual = parseFloat(emiRate.value);
+            const years = parseFloat(emiYears.value);
+            if (!P || P <= 0) { alert('Please enter a valid positive principal amount.'); emiPrincipal.focus(); return; }
+            if (isNaN(annual) || annual < 0) { alert('Please enter a valid non-negative annual interest rate.'); emiRate.focus(); return; }
+            if (!years || years <= 0) { alert('Please enter a valid tenure (years greater than 0).'); emiYears.focus(); return; }
+
+            const n = Math.round(years * 12); // total months
+            let emi;
+            if (annual === 0) {
+                emi = P / n;
+            } else {
+                const r = annual / 100 / 12; // monthly rate
+                const c = Math.pow(1 + r, n);
+                emi = (P * r * c) / (c - 1);
+            }
+            const totalPayment = emi * n;
+            const totalInterest = totalPayment - P;
+
+            emiMonthly.textContent = numberFormat.format(emi);
+            emiTotalPayment.textContent = numberFormat.format(totalPayment);
+            emiTotalInterest.textContent = numberFormat.format(totalInterest);
+            emiOutput.style.display = 'block';
+            emiResultPanel.style.background = 'linear-gradient(90deg, rgba(15,23,36,1) 0%, rgba(16,185,129,1) 100%)';
+            emiMonthly.focus?.();
+        }
+
+        function resetEMI(){
+            emiPrincipal.value = '';
+            emiRate.value = '';
+            emiYears.value = '';
+            emiOutput.style.display = 'none';
+            emiPrincipal.focus();
+        }
+
+        emiCalcBtn.addEventListener('click', computeEMI);
+        emiResetBtn.addEventListener('click', resetEMI);
+    </script>
+</body>
+</html>
